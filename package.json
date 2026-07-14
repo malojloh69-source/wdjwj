@@ -1,0 +1,13 @@
+{
+  "name": "ots-fanpay-v3",
+  "version": "3.1.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "start": "node bot/server.js",
+    "check": "node --check bot/server.js && node --check bot/bot.js && node --check app.js && node --check app-config.js && node --check wallet-config.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

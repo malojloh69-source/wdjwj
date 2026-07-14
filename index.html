@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>OTS FanPay Mini App</title>
+  <script src="https://telegram.org/js/telegram-web-app.js?62"></script>
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+  <script src="./wallet-config.js"></script>
+  <script src="./app-config.js?v=20260714-2"></script>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <section id="dealsTab" class="tab-screen active" aria-label="Сделки">
+      <header class="page-head">
+        <div>
+          <p class="page-kicker">OTS FanPay</p>
+          <h1>Сделки</h1>
+        </div>
+        <button id="quickProfileButton" class="round-user" type="button" aria-label="Профиль">
+          <img id="userPhoto" class="user-photo hidden" alt="Фото профиля" />
+          <span id="userInitials">?</span>
+        </button>
+      </header>
+
+      <section class="stats-card">
+        <div class="stats-glow"></div>
+        <div class="stats-line">
+          <span>Активные</span>
+          <strong id="activeCount">0</strong>
+        </div>
+        <div class="stats-line muted">
+          <span>История</span>
+          <strong id="historyCount">0</strong>
+        </div>
+      </section>
+
+      <div class="main-actions">
+        <button id="createDealButton" class="big-action blue" type="button">
+          <span class="action-icon plus">+</span>
+          <span>Создать сделку</span>
+        </button>
+        <button id="joinDealButton" class="big-action join-deal-action" type="button">
+          <span class="action-icon join-code-icon">#</span>
+          <span>Присоединиться</span>
+        </button>
+        <button id="activeDealsButton" class="big-action" type="button">
+          <span class="action-icon grid-icon">▦</span>
+          <span>Активные</span>
+        </button>
+        <button id="historyButton" class="big-action" type="button">
+          <span class="action-icon history-icon">↺</span>
+          <span>История сделок</span>
+        </button>
+      </div>
+    </section>
+
+    <section id="walletsTab" class="tab-screen" aria-label="Кошельки">
+      <header class="page-head plain">
+        <h1>Мои кошельки</h1>
+      </header>
+
+      <div id="walletChips" class="wallet-chips" aria-label="Валюты кошельков"></div>
+
+      <section id="walletCard" class="wallet-card wallet-card-detailed">
+        <h2>Мои кошельки</h2>
+        <div id="walletInfoList" class="wallet-info-list"></div>
+      </section>
+
+      <button id="depositButton" class="blue-wide" type="button">Пополнить</button>
+      <button id="withdrawButton" class="gray-wide" type="button">Вывести</button>
+    </section>
+
+    <section id="leadersTab" class="tab-screen leaderboard-screen" aria-label="Лидеры">
+      <header class="leaderboard-top">
+        <h1>Топ участников</h1>
+      </header>
+
+      <div class="leaderboard-stage">
+        <section class="season-card" aria-label="Сезонный лидерборд">
+          <div class="season-glow season-glow-a"></div>
+          <div class="season-glow season-glow-b"></div>
+
+          <div class="trophy-wrap" aria-hidden="true">
+            <svg class="trophy-svg" viewBox="0 0 128 128" role="img">
+              <defs>
+                <linearGradient id="cupMain" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#f1fbff"/>
+                  <stop offset=".28" stop-color="#b6ecff"/>
+                  <stop offset=".62" stop-color="#4fc5ff"/>
+                  <stop offset="1" stop-color="#087be2"/>
+                </linearGradient>
+                <linearGradient id="cupSide" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#8eeaff"/>
+                  <stop offset="1" stop-color="#0a5dc8"/>
+                </linearGradient>
+                <filter id="cupGlow" x="-70%" y="-70%" width="240%" height="240%">
+                  <feGaussianBlur stdDeviation="8" result="blur"/>
+                  <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.22 0 0 0 0 0.74 0 0 0 0 1 0 0 0 .75 0"/>
+                  <feBlend in="SourceGraphic" mode="screen"/>
+                </filter>
+              </defs>
+              <g filter="url(#cupGlow)">
+                <path fill="url(#cupSide)" d="M22 38h22v18c0 12-8 24-22 24C11 80 5 70 5 58V47c0-6 5-9 17-9Zm0 13c-5 0-6 1-6 4v4c0 5 3 9 8 9 7 0 11-6 12-17H22Z"/>
+                <path fill="url(#cupSide)" d="M84 38h22c12 0 17 3 17 9v11c0 12-6 22-17 22-14 0-22-12-22-24V38Zm8 13c1 11 5 17 12 17 5 0 8-4 8-9v-4c0-3-1-4-6-4H92Z"/>
+                <path fill="url(#cupMain)" d="M40 28h48v34c0 20-11 31-24 31S40 82 40 62V28Z"/>
+                <path fill="#0a73d8" d="M56 88h16v17H56z"/>
+                <path fill="#0968c4" d="M42 104h44c5 0 8 4 8 8v2H34v-2c0-4 3-8 8-8Z"/>
+                <path fill="rgba(255,255,255,.45)" d="M47 31h33c-2 11-9 22-28 26-4 1-5-1-5-5V31Z"/>
+              </g>
+            </svg>
+          </div>
+
+          <h2 class="season-title">Лидерборд скоро откроется</h2>
+          <p class="season-subtitle">Топ-20 участников по объёму сделок<br>разделят призовой фонд</p>
+
+          <p class="start-label">До старта</p>
+          <div class="season-countdown" aria-label="До старта">
+            <div class="time-tile"><strong id="lbDays">12</strong><span>Дней</span></div>
+            <div class="time-tile"><strong id="lbHours">10</strong><span>Часов</span></div>
+            <div class="time-tile"><strong id="lbMinutes">54</strong><span>Минут</span></div>
+            <div class="time-tile"><strong id="lbSeconds">10</strong><span>Секунд</span></div>
+          </div>
+
+          <div class="fund-chip">
+            <span>Призовой фонд</span>
+            <strong>$50 000</strong>
+          </div>
+
+          <div class="podium-row" aria-label="Призы победителям">
+            <article class="podium-card podium-first">
+              <div class="place-dot">1</div>
+              <strong>$10K</strong>
+              <span>1 место</span>
+            </article>
+            <article class="podium-card">
+              <div class="place-dot">2</div>
+              <strong>$5K</strong>
+              <span>2 место</span>
+            </article>
+            <article class="podium-card podium-third">
+              <div class="place-dot">3</div>
+              <strong>$3K</strong>
+              <span>3 место</span>
+            </article>
+          </div>
+
+          <section class="newbie-card">
+            <div class="newbie-icon" aria-hidden="true">
+              <svg viewBox="0 0 88 88">
+                <rect x="0" y="0" width="88" height="88" rx="24" fill="url(#newbieGrad)"/>
+                <defs>
+                  <linearGradient id="newbieGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#95f0ff"/>
+                    <stop offset="1" stop-color="#35a8ff"/>
+                  </linearGradient>
+                </defs>
+                <path d="M43 20c4 17 8 21 25 25-17 4-21 8-25 25-4-17-8-21-25-25 17-4 21-8 25-25Z" fill="#dff9ff" opacity=".9"/>
+                <circle cx="62" cy="27" r="3" fill="#eaffff" opacity=".95"/>
+                <circle cx="24" cy="58" r="2.5" fill="#eaffff" opacity=".8"/>
+              </svg>
+            </div>
+            <div class="newbie-copy">
+              <div class="newbie-head">
+                <strong>$5 000</strong>
+                <span>Бонус новичкам</span>
+              </div>
+              <h3>Сделай первую сделку —<br>гарантированно получи долю</h3>
+              <p>$5 000 разделим между всеми, кто проведёт хотя бы одну сделку до конца сезона. Одна сделка = гарантированная награда.</p>
+              <div class="check-pill"><span>✓</span> Любой может выиграть, не только топ</div>
+            </div>
+          </section>
+
+          <div class="range-list" aria-label="Дополнительные призовые места">
+            <div class="range-row"><span>#4–10</span><i></i><strong>$12K</strong></div>
+            <div class="range-row"><span>#11–50</span><i></i><strong>$10K</strong></div>
+            <div class="range-row accent"><span>#51–100</span><em><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="9" r="1.5" fill="currentColor"/><circle cx="15" cy="9" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="9" cy="15" r="1.5" fill="currentColor"/><circle cx="15" cy="15" r="1.5" fill="currentColor"/></svg> Розыгрыш</em><strong>$10K</strong></div>
+          </div>
+
+          <p class="winners-note">100 победителей получат награды</p>
+
+          <section class="random-card">
+            <div class="dice-icon" aria-hidden="true">
+              <svg viewBox="0 0 52 52"><rect x="7" y="7" width="38" height="38" rx="8" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="19" cy="19" r="3" fill="currentColor"/><circle cx="33" cy="19" r="3" fill="currentColor"/><circle cx="26" cy="26" r="3" fill="currentColor"/><circle cx="19" cy="33" r="3" fill="currentColor"/><circle cx="33" cy="33" r="3" fill="currentColor"/></svg>
+            </div>
+            <div>
+              <h3>Места 51–100 разыгрываются случайно</h3>
+              <p>Не самый большой объём — не беда. Возможно именно вы окажетесь в списке счастливчиков!</p>
+            </div>
+          </section>
+
+          <h2 class="how-title">Как это работает</h2>
+          <div class="steps-list">
+            <article class="step-card"><span>1</span><div><h3>Закрывайте сделки</h3><p>Каждая завершённая сделка увеличивает ваш счёт в рейтинге</p></div></article>
+            <article class="step-card"><span>2</span><div><h3>Поднимайтесь в топе</h3><p>Чем больше суммарный объём — тем выше ваше место</p></div></article>
+            <article class="step-card"><span>3</span><div><h3>Получите награду</h3><p>Топ-100 победителей получают призы автоматически на баланс</p></div></article>
+          </div>
+
+          <section class="deal-now-card">
+            <div class="gift-icon" aria-hidden="true">
+              <svg viewBox="0 0 72 72"><rect x="13" y="29" width="46" height="30" rx="7" fill="none" stroke="currentColor" stroke-width="5"/><path d="M36 29v30M10 29h52M22 20c0-6 9-9 14 9-17 0-14-9-14-9Zm28 0c0-6-9-9-14 9 17 0 14-9 14-9Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <h3>Совершайте сделки прямо сейчас</h3>
+              <p>Возможно именно вы окажетесь среди победителей сезона</p>
+            </div>
+          </section>
+        </section>
+      </div>
+    </section>
+
+    <section id="profileTab" class="tab-screen" aria-label="Профиль">
+      <header class="page-head plain">
+        <h1>Профиль</h1>
+      </header>
+      <section id="profileCard" class="profile-card"></section>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Навигация">
+    <button class="nav-item active" type="button" data-tab="deals">
+      <span class="nav-icon"><img class="nav-icon-img" src="./assets/nav/deals.png" alt="" aria-hidden="true" /></span>
+      <span>Сделки</span>
+    </button>
+    <button class="nav-item" type="button" data-tab="wallets">
+      <span class="nav-icon"><img class="nav-icon-img" src="./assets/nav/wallet.png" alt="" aria-hidden="true" /></span>
+      <span>Кошельки</span>
+    </button>
+    <button class="nav-item" type="button" data-tab="leaders">
+      <span class="nav-icon"><img class="nav-icon-img" src="./assets/nav/leaders.png" alt="" aria-hidden="true" /></span>
+      <span>Лидеры</span>
+    </button>
+    <button class="nav-item" type="button" data-tab="profile">
+      <span class="nav-icon"><img class="nav-icon-img" src="./assets/nav/profile.png" alt="" aria-hidden="true" /></span>
+      <span>Профиль</span>
+    </button>
+  </nav>
+
+  <section id="createTypeSheet" class="sheet hidden" aria-label="Создать сделку" aria-hidden="true">
+    <div class="sheet-panel short">
+      <div class="sheet-head">
+        <h2>Создать сделку</h2>
+        <button class="close-button" type="button" data-close-create aria-label="Закрыть">×</button>
+      </div>
+      <h3 class="center-title">Выберите тип сделки</h3>
+      <div class="type-list">
+        <button class="type-row" type="button" data-type="buy"><span>↓</span><b>Купить</b></button>
+        <button class="type-row" type="button" data-type="sell"><span>↑</span><b>Продать</b></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="createFlow" class="create-flow hidden" aria-label="Форма создания сделки" aria-hidden="true">
+    <div class="flow-panel">
+      <div class="sheet-head flow-head">
+        <h2>Создать сделку</h2>
+        <button class="close-button" type="button" data-close-create aria-label="Закрыть">×</button>
+      </div>
+      <button id="flowBackButton" class="back-link" type="button">‹ Назад</button>
+
+      <div id="currencyStep" class="flow-step active">
+        <h3 class="center-title large">Выберите валюту</h3>
+        <div id="currencyGrid" class="currency-grid"></div>
+      </div>
+
+      <form id="dealForm" class="flow-step deal-form" autocomplete="off">
+        <div class="selected-row">
+          <img id="selectedCurrencyLogo" class="mini-currency" alt="" />
+          <div>
+            <span id="selectedDealText">Покупка TON</span>
+            <small id="selectedCurrencyText">Выбрано: TON</small>
+          </div>
+        </div>
+        <label>
+          <span>Сумма</span>
+          <input id="amountInput" name="amount" inputmode="decimal" placeholder="Например: 100" />
+        </label>
+        <label>
+          <span>Цена / курс</span>
+          <input id="priceInput" name="price" inputmode="decimal" placeholder="Например: 1 TON = 300 RUB" />
+        </label>
+        <label>
+          <span>Контрагент Telegram</span>
+          <input id="partnerInput" name="partner" placeholder="@username или ID" />
+        </label>
+        <label>
+          <span>Комментарий</span>
+          <textarea id="commentInput" name="comment" rows="3" placeholder="Условия сделки"></textarea>
+        </label>
+        <button class="blue-wide submit" type="submit">Создать сделку</button>
+      </form>
+    </div>
+  </section>
+
+  <section id="listSheet" class="create-flow hidden" aria-label="Список сделок" aria-hidden="true">
+    <div class="flow-panel list-panel">
+      <div class="sheet-head flow-head">
+        <h2 id="listTitle">Активные сделки</h2>
+        <button class="close-button" type="button" data-close-list aria-label="Закрыть">×</button>
+      </div>
+      <div id="dealsList" class="deals-list"></div>
+    </div>
+  </section>
+
+  <section id="joinDealModal" class="wallet-modal hidden" aria-label="Присоединиться к сделке" aria-hidden="true">
+    <div class="wallet-modal-backdrop" data-close-join-modal></div>
+    <div class="wallet-modal-panel join-modal-panel">
+      <div class="sheet-head wallet-modal-head">
+        <div>
+          <span class="modal-eyebrow">Сделка</span>
+          <h2>Подключиться к сделке</h2>
+        </div>
+        <button id="joinDealModalClose" class="close-button" type="button" aria-label="Закрыть">×</button>
+      </div>
+      <div class="join-modal-body">
+        <section class="join-code-card">
+          <div class="join-code-symbol">#</div>
+          <div>
+            <strong>Введите код сделки</strong>
+            <p>Создатель сделки должен отправить вам 6 цифр.</p>
+          </div>
+        </section>
+        <label class="wallet-field">
+          <span class="wallet-field-title">Код сделки</span>
+          <input id="joinDealCodeInput" class="wallet-input join-code-input" inputmode="numeric" maxlength="6" placeholder="000000" autocomplete="one-time-code" />
+        </label>
+        <button id="joinDealSubmit" class="blue-wide" type="button">Присоединиться</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="walletModal" class="wallet-modal hidden" aria-label="Операции с кошельком" aria-hidden="true">
+    <div class="wallet-modal-backdrop" data-close-wallet-modal></div>
+    <div class="wallet-modal-panel">
+      <div class="sheet-head wallet-modal-head">
+        <h2 id="walletModalTitle">Пополнить</h2>
+        <button id="walletModalClose" class="close-button" type="button" aria-label="Закрыть">×</button>
+      </div>
+      <div id="walletModalBody" class="wallet-modal-body"></div>
+    </div>
+  </section>
+
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+  <script src="./webrtc.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

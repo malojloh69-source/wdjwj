@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="STARS">
+  <defs><filter id="s" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="5" stdDeviation="5" flood-opacity="0.25"/></filter></defs>
+  <circle cx="48" cy="48" r="40" fill="#FDB51A" filter="url(#s)"/>
+  <path d="M48 18 56 38l21 2-16 14 5 21-18-11-18 11 5-21-16-14 21-2 8-20Z" fill="white"/>
+</svg>
